@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*** GENERATED FROM project.xml - DO NOT EDIT  ***
+***         EDIT ../build.xml INSTEAD          ***
+-->
+<project xmlns:webproject1="http://www.netbeans.org/ns/web-project/1" 
+         xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" 
+         xmlns:webproject3="http://www.netbeans.org/ns/web-project/3" 
+         basedir=".." 
+         default="default" 
+         name="BookExchangePortal-impl">
+
+    <target name="default" depends="dist" description="Build whole project."/>
+
+    <target name="-pre-init">
+        <!-- Empty placeholder -->
+    </target>
+
+    <target name="-init-private" depends="-pre-init">
+        <property file="nbproject/private/private.properties"/>
+    </target>
+
+    <target name="-init-user" depends="-init-private">
+        <property file="${user.properties.file}"/>
+    </target>
+
+    <target name="-init-project" depends="-init-user">
+        <property file="nbproject/project.properties"/>
+    </target>
+
+    <target name="-init-macrodef-property">
+        <!-- Empty placeholder -->
+    </target>
+
+    <target name="init" depends="-init-project,-init-macrodef-property">
+        <property name="build.dir" value="build"/>
+        <property name="build.web.dir" value="${build.dir}/web"/>
+        <property name="build.classes.dir" value="${build.web.dir}/WEB-INF/classes"/>
+        <property name="dist.dir" value="dist"/>
+        <property name="dist.war" value="${dist.dir}/BookExchangePortal.war"/>
+        <property name="src.dir" value="src/java"/>
+        <property name="web.docbase.dir" value="web"/>
+        <property name="lib.dir" value="lib"/>
+        <property name="javac.source" value="17"/>
+        <property name="javac.target" value="17"/>
+    </target>
+
+    <target name="compile" depends="init" description="Compile project.">
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${src.dir}" 
+               destdir="${build.classes.dir}" 
+               source="${javac.source}" 
+               target="${javac.target}" 
+               includeantruntime="false"
+               debug="true">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="*.jar" erroronmissingdir="false"/>
+                <fileset dir="D:/Programming/apache-tomcat-10.1.52/lib" includes="*.jar" erroronmissingdir="false"/>
+                <pathelement location="D:/Programming/mysql-connector-j-9.6.0/mysql-connector-j-9.6.0.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="dist" depends="compile" description="Build WAR file.">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.web.dir}"/>
+        
+        <!-- Copy web content -->
+        <copy todir="${build.web.dir}">
+            <fileset dir="${web.docbase.dir}"/>
+        </copy>
+        
+        <!-- Copy libraries -->
+        <mkdir dir="${build.web.dir}/WEB-INF/lib"/>
+        <copy todir="${build.web.dir}/WEB-INF/lib" failonerror="false">
+            <fileset dir="${lib.dir}" includes="*.jar"/>
+        </copy>
+        
+        <!-- Create WAR -->
+        <war destfile="${dist.war}" webxml="${build.web.dir}/WEB-INF/web.xml">
+            <fileset dir="${build.web.dir}"/>
+        </war>
+    </target>
+
+    <target name="clean" description="Clean build products.">
+        <delete dir="${build.dir}" failonerror="false"/>
+        <delete dir="${dist.dir}" failonerror="false"/>
+    </target>
+
+    <target name="run" depends="dist" description="Deploy to server.">
+        <echo message="Deploy ${dist.war} to your Tomcat server."/>
+    </target>
+</project>
